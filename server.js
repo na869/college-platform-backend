@@ -16,7 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/discussions', require('./routes/discussions'));
-app.use('/api/announcements', ((req, res, next) => require('./routes/announcements')(io))(req, res, next));
+app.use('/api/announcements', require('./routes/announcements')(io)); // Fixed: Pass io directly
 app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/clubs', require('./routes/clubs'));
 
