@@ -9,23 +9,19 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/discussions', require('./routes/discussions'));
-app.use('/api/announcements', require('./routes/announcements')(io)); // Fixed: Pass io directly
+app.use('/api/announcements', require('./routes/announcements')(io));
 app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/clubs', require('./routes/clubs'));
 
-// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-// Socket.io Setup
 io.on('connection', (socket) => {
   console.log('User connected');
   socket.on('disconnect', () => console.log('User disconnected'));
