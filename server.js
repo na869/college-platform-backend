@@ -16,7 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/discussions', require('./routes/discussions'));
-app.use('/api/announcements', require('./routes/announcements')); // Capital A (or rename file)
+app.use('/api/announcements', ((req, res, next) => require('./routes/announcements')(io))(req, res, next));
 app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/clubs', require('./routes/clubs'));
 
@@ -24,7 +24,6 @@ app.use('/api/clubs', require('./routes/clubs'));
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
-
 
 // Socket.io Setup
 io.on('connection', (socket) => {
@@ -34,4 +33,5 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => res.send('Server is running'));
 
-server.listen(5000, () => console.log('Server running on port 5000'));
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
