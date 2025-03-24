@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/discussions', require('./routes/discussions'));
-app.use('/api/announcements', require('./routes/announcements')(io));
+// app.use('/api/announcements', require('./routes/announcements')(io)); // Disabled for emergency deploy
 app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/clubs', require('./routes/clubs'));
 
